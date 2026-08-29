@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>My Perfect Day </title>
+    <link rel="style.css">
+</head>
+<body>
+    <h1>A perfect Day</h1>
+    <h2>Are u looking for a place to store all the memories from your perfect dayy well my dear friend you have found the perfect place for that.</h2>
+    <h3>Welcome to starlight lock</h3>
+    <h4>Here is a guide for how to make a journal page</h4>
+    <ol>
+        <li>Enter your background type</li>
+        <li>select the design of your liking or simpily create your own using the create option</li>
+        <li>type down everything about your perfect day</li>
+        <li>decorate your page according to your liking</li>
+    </ol>
+    <h1>Let's Start:</h1>
+    <script scr="script.js"></script>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Starlight Lock - Digital Journal</title>
+  <style>
+    :root {
+      --body-bg-gradient: linear-gradient(to right, #1e1b4b, #6b21a8, #a855f7);
+      --card-bg: rgba(255, 255, 255, 0.95);
+      --text-color: #1e293b;
+      --accent-color: #8b5cf6;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--body-bg-gradient);
+      background-attachment: fixed;
+      color: #f8fafc;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    header {
+      text-align: center;
+      margin: 20px 0 10px;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      margin: 0;
+      color: #f43f5e;
+      text-shadow: 0 0 12px rgba(244, 63, 94, 0.4), 0 0 20px rgba(255, 255, 255, 0.8);
+    }
+
+    header p {
+      color: #e9d5ff;
+      margin-top: 5px;
+    }
+
+    .container {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 20px;
+      max-width: 1400px;
+      width: 95%;
+      margin-bottom: 40px;
+    }
+
+    .toolbar {
+      flex: 1;
+      min-width: 280px;
+      background: rgba(30, 27, 75, 0.75);
+      padding: 20px;
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      max-height: 85vh;
+      overflow-y: auto;
+    }
+
+    .toolbar h2 {
+      margin-top: 15px;
+      font-size: 1.1rem;
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 5px;
+      color: #ddd6fe;
+    }
+
+    .control-group {
+      margin-bottom: 15px;
+    }
+
+    .control-group label {
+      display: block;
+      margin-bottom: 5px;
+      font-size: 0.9rem;
+      color: #f3e8ff;
+    }
+
+    input[type="color"], input[type="file"], input[type="text"], input[type="date"], select, button, textarea {
+      width: 100%;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #6b21a8;
+      background: rgba(15, 23, 42, 0.6);
+      color: #fff;
+      padding: 8px;
+    }
+
+    button {
+      background: #9333ea;
+      cursor: pointer;
+      font-weight: bold;
+      border: none;
+      margin-top: 5px;
+      transition: all 0.2s;
+    }
+
+    button:hover {
+      background: #a855f7;
+      transform: translateY(-1px);
+    }
+
+    .sticker-palette {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      font-size: 1.4rem;
+      cursor: pointer;
+    }
+
+    .sticker-palette span {
+      transition: transform 0.2s;
+      background: rgba(255,255,255,0.15);
+      padding: 4px 8px;
+      border-radius: 8px;
+    }
+
+    .sticker-palette span:hover {
+      transform: scale(1.25) rotate(5deg);
+    }
+
+    /* Sticker Creator Canvas */
+    #drawingCanvas {
+      background: #ffffff;
+      border-radius: 8px;
+      cursor: crosshair;
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    /* Journal Canvas Area */
+    .journal-wrapper {
+      flex: 2;
+      min-width: 320px;
+      position: relative;
+    }
+
+    .journal-page {
+      background: var(--card-bg);
+      color: var(--text-color);
+      border-radius: 16px;
+      padding: 30px;
+      min-height: 550px;
+      position: relative;
+      box-shadow: 0 12px 35px rgba(0,0,0,0.25);
+      overflow: hidden;
+      background-size: cover;
+      background-position: center;
+      border: 5px solid transparent;
+    }
+
+    .journal-page h2 {
+      margin-top: 0;
+      outline: none;
+      border-bottom: 2px dashed #e2e8f0;
+      padding-bottom: 8px;
+      color: #3b0764;
+    }
+
+    .journal-entry {
+      width: 100%;
+      height: 320px;
+      border: none;
+      background: transparent;
+      resize: none;
+      font-size: 1.05rem;
+      line-height: 1.6;
+      color: inherit;
+    }
+
+    .journal-entry:focus {
+      outline: none;
+    }
+
+    /* My Life in Frames Game Canvas & Controls */
+    .story-game-wrapper {
+      flex: 1.5;
+      min-width: 300px;
+      background: rgba(30, 27, 75, 0.75);
+      padding: 20px;
+      border-radius: 16px;
+      backdrop-filter: blur(12px);
+      box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    /* WHITE HEADING FOR GAME TITLE */
+    .story-game-wrapper h2 {
+      margin-top: 0;
+      color: #ffffff !important;
+      font-size: 1.3rem;
+      border-bottom: 2px solid var(--accent-color);
+      padding-bottom: 6px;
+      width: 100%;
+      text-align: center;
+      text-shadow: 0 2px 4px rgba(0,0,0,0.3);
+    }
+
+    .game-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      width: 100%;
+      margin-bottom: 10px;
+    }
+
+    .game-controls select {
+      font-size: 0.82rem;
+      padding: 6px;
+    }
+
+    #gameCanvas {
+      background: #18181b;
+      border-radius: 16px;
+      border: 4px solid #a855f7;
+      width: 100%;
+      height: 480px;
+      box-shadow: 0 8px 20px rgba(0,0,0,0.3);
+      image-rendering: pixelated; /* Enhances Pixel Art sharpness */
+    }
+
+    .game-hint {
+      font-size: 0.82rem;
+      color: #e9d5ff;
+      margin-top: 10px;
+      text-align: center;
+      line-height: 1.4;
+    }
+
+    .placed-sticker {
+      position: absolute;
+      cursor: move;
+      user-select: none;
+      display: inline-block;
+    }
+
+    .placed-sticker img, .placed-sticker video {
+      max-width: 160px;
+      max-height: 160px;
+      border-radius: 8px;
+    }
+
+    .entries-list {
+      margin-top: 10px;
+      max-height: 120px;
+      overflow-y: auto;
+    }
+
+    .entry-item {
+      padding: 6px;
+      background: rgba(15, 23, 42, 0.6);
+      margin-bottom: 4px;
+      border-radius: 6px;
+      cursor: pointer;
+      font-size: 0.85rem;
+      display: flex;
+      justify-content: space-between;
+      border: 1px solid rgba(255,255,255,0.05);
+    }
+
+    .entry-item:hover {
+      background: rgba(107, 33, 168, 0.5);
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <h1>✨ Starlight Lock ✨</h1>
+    <p>Preserve your perfect memories in your personal digital journal</p>
+  </header>
+
+  <div class="container">
+    <!-- Sidebar -->
+    <div class="toolbar">
+      <h2>📅 Journal Entries</h2>
+      <div class="control-group">
+        <label for="entryDate">Select Date:</label>
+        <input type="date" id="entryDate">
+        <button onclick="saveCurrentEntry()">💾 Save Entry</button>
+      </div>
+
+      <div class="control-group">
+        <label>Saved Memories:</label>
+        <div id="entriesList" class="entries-list"></div>
+      </div>
+
+      <h2>🎨 Customize Canvas</h2>
+      <div class="control-group">
+        <label for="bgColor">Page Color:</label>
+        <input type="color" id="bgColor" value="#ffffff">
+      </div>
+
+      <div class="control-group">
+        <label for="bgImage">Upload Page Background:</label>
+        <input type="file" id="bgImage" accept="image/*">
+      </div>
+
+      <h2>🎬 Video Memories</h2>
+      <div class="control-group">
+        <label for="videoMemory">Upload Video Memory:</label>
+        <input type="file" id="videoMemory" accept="video/*">
+      </div>
+
+      <h2>🖼️ Border Options</h2>
+      <div class="control-group">
+        <label for="borderStyle">Preset Border Style:</label>
+        <select id="borderStyle" onchange="applyBorderStyle()">
+          <option value="none">None</option>
+          <option value="solid 5px #8b5cf6">Solid Purple</option>
+          <option value="dashed 4px #ec4899">Dashed Pink</option>
+          <option value="double 6px #f59e0b">Double Gold</option>
+          <option value="groove 6px #10b981">Groove Emerald</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label>Create Custom Border:</label>
+        <input type="color" id="borderColor" value="#8b5cf6">
+        <select id="borderType" style="margin-top: 5px;">
+          <option value="solid">Solid</option>
+          <option value="dashed">Dashed</option>
+          <option value="dotted">Dotted</option>
+          <option value="double">Double</option>
+        </select>
+        <button onclick="applyCustomBorder()">Apply Custom Border</button>
+      </div>
+
+      <h2>🎨 Custom Sticker Creator</h2>
+      <div class="control-group">
+        <canvas id="drawingCanvas" width="220" height="100"></canvas>
+        <div style="display: flex; gap: 5px;">
+          <input type="color" id="penColor" value="#ec4899">
+          <button onclick="clearCanvas()">Clear</button>
+          <button onclick="addDrawnSticker()">Add Sticker</button>
+        </div>
+      </div>
+
+      <h2>⭐ Stickers & Doodles</h2>
+      <div class="control-group">
+        <label>✈️ Travel Doodles:</label>
+        <div class="sticker-palette">
+          <span onclick="addTextSticker('✈️')">✈️</span>
+          <span onclick="addTextSticker('🧳')">🧳</span>
+          <span onclick="addTextSticker('🗺️')">🗺️</span>
+          <span onclick="addTextSticker('📸')">📸</span>
+          <span onclick="addTextSticker('🏔️')">🏔️</span>
+          <span onclick="addTextSticker('🏖️')">🏖️</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>🥰 Cute Emoticons:</label>
+        <div class="sticker-palette">
+          <span onclick="addTextSticker('(⁠◕⁠ᴗ⁠◕⁠✿⁠)')">(⁠◕⁠ᴗ⁠◕⁠✿⁠)</span>
+          <span onclick="addTextSticker('ʕ⁠·⁠ᴥ⁠·⁠ʔ')">ʕ⁠·⁠ᴥ⁠·⁠ʔ</span>
+          <span onclick="addTextSticker('(⁠｡⁠•̀⁠ᴗ⁠-⁠)⁠✧')">(⁠｡⁠•̀⁠ᴗ⁠-⁠)⁠✧</span>
+          <span onclick="addTextSticker('ฅ⁠^⁠•⁠ﻌ⁠•⁠^⁠ฅ')">ฅ⁠^⁠•⁠ﻌ⁠•⁠^⁠ฅ</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label>✨ Standard Decorations:</label>
+        <div class="sticker-palette">
+          <span onclick="addTextSticker('⭐')">⭐</span>
+          <span onclick="addTextSticker('🌙')">🌙</span>
+          <span onclick="addTextSticker('🌸')">🌸</span>
+          <span onclick="addTextSticker('✨')">✨</span>
+          <span onclick="addTextSticker('🎈')">🎈</span>
+        </div>
+      </div>
+
+      <div class="control-group">
+        <label for="customSticker">Upload Image/Sticker:</label>
+        <input type="file" id="customSticker" accept="image/*">
+      </div>
+    </div>
+
+    <!-- Main Journal Area -->
+    <div class="journal-wrapper">
+      <div class="journal-page" id="journalPage">
+        <h2 contenteditable="true" id="entryTitle">My Perfect Day - [Click to edit title]</h2>
+        <textarea class="journal-entry" id="entryContent" placeholder="Write your story here... Mention keywords like 'cat', 'dog', 'coffee', 'plant', 'music', or 'love' to generate cute pixel items!"></textarea>
+      </div>
+    </div>
+
+    <!-- Side-by-side Game Canvas: My Life in Frames -->
+    <div class="story-game-wrapper">
+      <h2>🎮 My Life in Frames</h2>
+      
+      <!-- Location & Weather Controls -->
+      <div class="game-controls">
+        <div style="flex: 1;">
+          <select id="locationSelect">
+            <option value="room">🛋️ Cozy Room</option>
+            <option value="garden">🌸 Pixel Garden</option>
+            <option value="cafe">☕ Cozy Café</option>
+            <option value="mall">🛍️ Shopping Mall</option>
+          </select>
+        </div>
+        <div style="flex: 1;">
+          <select id="weatherSelect">
+            <option value="auto">✨ Auto Weather</option>
+            <option value="sunny">☀️ Sunny</option>
+            <option value="rain">🌧️ Rainy</option>
+            <option value="snow">❄️ Snowy</option>
+            <option value="night">🌙 Night</option>
+          </select>
+        </div>
+      </div>
+
+      <canvas id="gameCanvas" width="320" height="480"></canvas>
+      <p class="game-hint">✨ Switch scenes & weather above, or write keywords like <b>cat, dog, coffee, plant, love</b> to populate your scene!</p>
+    </div>
+  </div>
+
+  <script>
+    const journalPage = document.getElementById('journalPage');
+    const bgColorInput = document.getElementById('bgColor');
+    const bgImageInput = document.getElementById('bgImage');
+    const customStickerInput = document.getElementById('customSticker');
+    const videoMemoryInput = document.getElementById('videoMemory');
+    const entryDate = document.getElementById('entryDate');
+    const entriesList = document.getElementById('entriesList');
+
+    entryDate.valueAsDate = new Date();
+
+    bgColorInput.addEventListener('input', (e) => {
+      journalPage.style.backgroundImage = 'none';
+      journalPage.style.backgroundColor = e.target.value;
+    });
+
+    bgImageInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          journalPage.style.backgroundImage = `url(${event.target.result})`;
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    videoMemoryInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const container = document.createElement('div');
+          container.className = 'placed-sticker';
+          container.style.left = '50px';
+          container.style.top = '150px';
+
+          const video = document.createElement('video');
+          video.src = event.target.result;
+          video.controls = true;
+          video.style.width = '180px';
+
+          container.appendChild(video);
+          makeDraggable(container);
+          journalPage.appendChild(container);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    function applyBorderStyle() {
+      journalPage.style.border = document.getElementById('borderStyle').value;
+    }
+
+    function applyCustomBorder() {
+      const color = document.getElementById('borderColor').value;
+      const type = document.getElementById('borderType').value;
+      journalPage.style.border = `5px ${type} ${color}`;
+    }
+
+    function addTextSticker(text) {
+      const sticker = document.createElement('div');
+      sticker.className = 'placed-sticker';
+      sticker.innerText = text;
+      sticker.style.fontSize = '2rem';
+      sticker.style.left = '50px';
+      sticker.style.top = '100px';
+      makeDraggable(sticker);
+      journalPage.appendChild(sticker);
+    }
+
+    customStickerInput.addEventListener('change', (e) => {
+      const file = e.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = (event) => {
+          const imgContainer = document.createElement('div');
+          imgContainer.className = 'placed-sticker';
+          imgContainer.style.left = '50px';
+          imgContainer.style.top = '100px';
+
+          const img = document.createElement('img');
+          img.src = event.target.result;
+          imgContainer.appendChild(img);
+
+          makeDraggable(imgContainer);
+          journalPage.appendChild(imgContainer);
+        };
+        reader.readAsDataURL(file);
+      }
+    });
+
+    // Drawing Canvas
+    const canvas = document.getElementById('drawingCanvas');
+    const ctx = canvas.getContext('2d');
+    let isDrawing = false;
+
+    canvas.addEventListener('mousedown', () => isDrawing = true);
+    canvas.addEventListener('mouseup', () => { isDrawing = false; ctx.beginPath(); });
+    canvas.addEventListener('mousemove', draw);
+
+    function draw(e) {
+      if (!isDrawing) return;
+      const rect = canvas.getBoundingClientRect();
+      ctx.lineWidth = 3;
+      ctx.lineCap = 'round';
+      ctx.strokeStyle = document.getElementById('penColor').value;
+
+      ctx.lineTo(e.clientX - rect.left, e.clientY - rect.top);
+      ctx.stroke();
+      ctx.beginPath();
+      ctx.moveTo(e.clientX - rect.left, e.clientY - rect.top);
+    }
+
+    function clearCanvas() { ctx.clearRect(0, 0, canvas.width, canvas.height); }
+
+    function addDrawnSticker() {
+      const dataURL = canvas.toDataURL();
+      const imgContainer = document.createElement('div');
+      imgContainer.className = 'placed-sticker';
+      imgContainer.style.left = '50px';
+      imgContainer.style.top = '100px';
+
+      const img = document.createElement('img');
+      img.src = dataURL;
+      imgContainer.appendChild(img);
+
+      makeDraggable(imgContainer);
+      journalPage.appendChild(imgContainer);
+      clearCanvas();
+    }
+
+    function makeDraggable(element) {
+      let isDragging = false, offsetX, offsetY;
+
+      element.addEventListener('mousedown', (e) => {
+        isDragging = true;
+        const rect = element.getBoundingClientRect();
+        offsetX = e.clientX - rect.left;
+        offsetY = e.clientY - rect.top;
+        element.style.zIndex = 1000;
+      });
+
+      document.addEventListener('mousemove', (e) => {
+        if (isDragging) {
+          const pageRect = journalPage.getBoundingClientRect();
+          element.style.left = `${e.clientX - pageRect.left - offsetX}px`;
+          element.style.top = `${e.clientY - pageRect.top - offsetY}px`;
+        }
+      });
+
+      document.addEventListener('mouseup', () => isDragging = false);
+    }
+
+    // Local Storage
+    let journalEntries = JSON.parse(localStorage.getItem('starlight_entries') || '{}');
+
+    function saveCurrentEntry() {
+      const dateKey = entryDate.value;
+      if (!dateKey) return alert('Please select a date.');
+
+      journalEntries[dateKey] = {
+        title: document.getElementById('entryTitle').innerText,
+        content: document.getElementById('entryContent').value,
+        bgColor: journalPage.style.backgroundColor,
+        border: journalPage.style.border
+      };
+
+      localStorage.setItem('starlight_entries', JSON.stringify(journalEntries));
+      renderEntriesList();
+      alert('Entry saved!');
+    }
+
+    function loadEntry(dateKey) {
+      const entry = journalEntries[dateKey];
+      if (entry) {
+        entryDate.value = dateKey;
+        document.getElementById('entryTitle').innerText = entry.title;
+        document.getElementById('entryContent').value = entry.content;
+        journalPage.style.backgroundColor = entry.bgColor || '#ffffff';
+        journalPage.style.border = entry.border || 'none';
+        parseStoryKeywords();
+      }
+    }
+
+    function renderEntriesList() {
+      entriesList.innerHTML = '';
+      Object.keys(journalEntries).forEach(date => {
+        const item = document.createElement('div');
+        item.className = 'entry-item';
+        item.innerHTML = `<span>📅 ${date}</span> <span>${journalEntries[date].title.substring(0, 12)}...</span>`;
+        item.onclick = () => loadEntry(date);
+        entriesList.appendChild(item);
+      });
+    }
+
+    renderEntriesList();
+
+    // --- GAME ENGINE: MY LIFE IN FRAMES ---
+    const gCanvas = document.getElementById('gameCanvas');
+    const gCtx = gCanvas.getContext('2d');
+    const entryArea = document.getElementById('entryContent');
+    const locationSelect = document.getElementById('locationSelect');
+    const weatherSelect = document.getElementById('weatherSelect');
+
+    let gameEntities = [];
+    let weatherParticles = [];
+    let frame = 0;
+
+    // Helper for crisp Pixel Art rectangles
+    function drawPixelRect(x, y, w, h, color) {
+      gCtx.fillStyle = color;
+      gCtx.fillRect(Math.round(x), Math.round(y), Math.round(w), Math.round(h));
+    }
+
+    function parseStoryKeywords() {
+      const text = entryArea.value.toLowerCase();
+      gameEntities = [];
+
+      if (text.includes('cat') || text.includes('kitty')) {
+        gameEntities.push({ type: 'cat', x: 210, y: 360, dir: 1, timer: 0 });
+      }
+      if (text.includes('dog') || text.includes('puppy')) {
+        gameEntities.push({ type: 'dog', x: 60, y: 370, dir: 1, timer: 0 });
+      }
+      if (text.includes('coffee') || text.includes('tea')) {
+        gameEntities.push({ type: 'coffee' });
+      }
+      if (text.includes('plant') || text.includes('flower')) {
+        gameEntities.push({ type: 'plant' });
+      }
+      if (text.includes('music') || text.includes('song')) {
+        gameEntities.push({ type: 'music' });
+      }
+      if (text.includes('love') || text.includes('heart') || text.includes('happy')) {
+        for (let i = 0; i < 5; i++) {
+          gameEntities.push({
+            type: 'floating_heart',
+            x: 40 + Math.random() * 240,
+            y: 200 + Math.random() * 150,
+            speed: 0.5 + Math.random() * 0.8
+          });
+        }
+      }
+    }
+
+    entryArea.addEventListener('input', parseStoryKeywords);
+
+    // Weather Engine
+    function updateAndDrawWeather() {
+      const mode = weatherSelect.value;
+      const text = entryArea.value.toLowerCase();
+      let activeWeather = mode;
+
+      if (mode === 'auto') {
+        if (text.includes('snow') || text.includes('cold') || text.includes('winter')) activeWeather = 'snow';
+        else if (text.includes('rain') || text.includes('storm')) activeWeather = 'rain';
+        else if (text.includes('night') || text.includes('dark') || text.includes('star')) activeWeather = 'night';
+        else activeWeather = 'sunny';
+      }
+
+      if (activeWeather === 'night') {
+        gCtx.fillStyle = 'rgba(15, 23, 42, 0.45)';
+        gCtx.fillRect(0, 0, gCanvas.width, gCanvas.height);
+        // Draw pixel stars
+        gCtx.fillStyle = '#fde047';
+        for (let i = 0; i < 12; i++) {
+          if ((frame + i * 10) % 30 < 20) {
+            gCtx.fillRect((i * 27) % 320, (i * 19) % 200, 3, 3);
+          }
+        }
+      } else if (activeWeather === 'rain') {
+        if (weatherParticles.length < 35) {
+          weatherParticles.push({
+            x: Math.random() * gCanvas.width,
+            y: Math.random() * gCanvas.height,
+            speed: 4 + Math.random() * 3,
+            len: 8 + Math.random() * 4
+          });
+        }
+        gCtx.strokeStyle = 'rgba(147, 197, 253, 0.75)';
+        gCtx.lineWidth = 2;
+        weatherParticles.forEach(p => {
+          p.y += p.speed;
+          if (p.y > gCanvas.height) p.y = -10;
+          gCtx.beginPath();
+          gCtx.moveTo(p.x, p.y);
+          gCtx.lineTo(p.x - 2, p.y + p.len);
+          gCtx.stroke();
+        });
+      } else if (activeWeather === 'snow') {
+        if (weatherParticles.length < 35) {
+          weatherParticles.push({
+            x: Math.random() * gCanvas.width,
+            y: Math.random() * gCanvas.height,
+            speed: 1 + Math.random() * 1.5,
+            size: 3 + Math.random() * 2,
+            drift: Math.random() - 0.5
+          });
+        }
+        gCtx.fillStyle = '#ffffff';
+        weatherParticles.forEach(p => {
+          p.y += p.speed;
+          p.x += Math.sin(frame / 20) * p.drift;
+          if (p.y > gCanvas.height) p.y = -5;
+          gCtx.fillRect(p.x, p.y, p.size, p.size);
+        });
+      } else if (activeWeather === 'sunny') {
+        // Soft golden sun ray overlay
+        gCtx.fillStyle = 'rgba(254, 240, 138, 0.08)';
+        gCtx.beginPath();
+        gCtx.moveTo(0, 0);
+        gCtx.lineTo(140, 0);
+        gCtx.lineTo(320, 350);
+        gCtx.lineTo(320, 480);
+        gCtx.fill();
+      }
+    }
+
+    // Location Background Rendering
+    function drawLocationBackground() {
+      const loc = locationSelect.value;
+
+      if (loc === 'room') {
+        // Pixel Room
+        drawPixelRect(0, 0, 320, 320, '#fef2f2'); // Wall
+        drawPixelRect(0, 320, 320, 160, '#d4be9b'); // Wooden Floor
+        // Floor Lines
+        for(let y = 350; y < 480; y += 30) drawPixelRect(0, y, 320, 3, '#b89f77');
+        // Window
+        drawPixelRect(210, 60, 80, 110, '#bfdbfe');
+        drawPixelRect(205, 55, 90, 8, '#78350f');
+        drawPixelRect(248, 60, 4, 110, '#ffffff');
+        drawPixelRect(210, 110, 80, 4, '#ffffff');
+        // Cozy Rug
+        drawPixelRect(50, 400, 220, 50, '#fbcfe8');
+        drawPixelRect(60, 405, 200, 40, '#f472b6');
+        // Armchair
+        drawPixelRect(110, 260, 100, 90, '#f43f5e');
+        drawPixelRect(120, 290, 80, 50, '#fda4af');
+      } 
+      else if (loc === 'garden') {
+        // Pixel Outdoor Garden
+        drawPixelRect(0, 0, 320, 260, '#bae6fd'); // Sky
+        drawPixelRect(0, 260, 320, 220, '#4ade80'); // Grass Floor
+        // Trees
+        drawPixelRect(20, 120, 35, 140, '#78350f');
+        drawPixelRect(0, 60, 75, 80, '#22c55e');
+        drawPixelRect(250, 140, 30, 120, '#78350f');
+        drawPixelRect(230, 80, 70, 70, '#16a34a');
+        // Flowers
+        for(let i = 0; i < 6; i++) {
+          drawPixelRect(40 + i*45, 300 + (i%2)*40, 8, 8, '#f43f5e');
+          drawPixelRect(42 + i*45, 302 + (i%2)*40, 4, 4, '#fde047');
+        }
+        // Garden Bench
+        drawPixelRect(110, 310, 100, 12, '#b45309');
+        drawPixelRect(120, 322, 12, 40, '#78350f');
+        drawPixelRect(188, 322, 12, 40, '#78350f');
+        drawPixelRect(110, 280, 100, 30, '#b45309');
+      } 
+      else if (loc === 'cafe') {
+        // Pixel Café
+        drawPixelRect(0, 0, 320, 300, '#ffedd5'); // Warm Wall
+        drawPixelRect(0, 300, 320, 180, '#78350f'); // Tile Floor
+        // Counter & Menu Board
+        drawPixelRect(30, 40, 100, 60, '#451a03');
+        drawPixelRect(40, 50, 80, 40, '#1e293b'); // Menu
+        drawPixelRect(0, 280, 160, 110, '#9a3412'); // Bar Counter
+        drawPixelRect(0, 275, 170, 10, '#fde047');
+        // Café Table & Chair
+        drawPixelRect(200, 340, 70, 8, '#b45309');
+        drawPixelRect(230, 348, 10, 60, '#78350f');
+        drawPixelRect(160, 330, 30, 70, '#9a3412');
+      } 
+      else if (loc === 'mall') {
+        // Pixel Mall Interior
+        drawPixelRect(0, 0, 320, 280, '#f1f5f9'); // Mall Wall
+        drawPixelRect(0, 280, 320, 200, '#e2e8f0'); // Polished Floor
+        // Glass Storefronts
+        drawPixelRect(20, 50, 120, 180, '#38bdf8');
+        drawPixelRect(30, 60, 100, 160, '#cbd5e1');
+        drawPixelRect(180, 50, 120, 180, '#f472b6');
+        drawPixelRect(190, 60, 100, 160, '#fbcfe8');
+        // Mall Banners / Signs
+        drawPixelRect(35, 75, 90, 25, '#f43f5e');
+        drawPixelRect(195, 75, 90, 25, '#8b5cf6');
+        // Indoor Fountain
+        drawPixelRect(110, 360, 100, 50, '#0284c7');
+        drawPixelRect(120, 350, 80, 10, '#38bdf8');
+      }
+    }
+
+    // Pixel Character
+    function drawPixelCharacter(x, y) {
+      // Body / Sweater
+      drawPixelRect(x - 14, y + 10, 28, 35, '#8b5cf6');
+      // Head
+      drawPixelRect(x - 16, y - 22, 32, 30, '#ffedd5');
+      // Hair
+      drawPixelRect(x - 18, y - 28, 36, 14, '#7c2d12');
+      drawPixelRect(x - 18, y - 18, 8, 20, '#7c2d12');
+      drawPixelRect(x + 10, y - 18, 8, 20, '#7c2d12');
+      // Eyes
+      drawPixelRect(x - 8, y - 8, 4, 6, '#0f172a');
+      drawPixelRect(x + 4, y - 8, 4, 6, '#0f172a');
+      // Blush
+      drawPixelRect(x - 12, y, 5, 3, '#f43f5e');
+      drawPixelRect(x + 7, y, 5, 3, '#f43f5e');
+    }
+
+    // Main Game Loop
+    function gameLoop() {
+      frame++;
+      gCtx.clearRect(0, 0, gCanvas.width, gCanvas.height);
+
+      // Render Active Background Location
+      drawLocationBackground();
+
+      // Render Character
+      drawPixelCharacter(160, 290);
+
+      // Render Keyword Generated Entities
+      gameEntities.forEach(ent => {
+        if (ent.type === 'coffee') {
+          drawPixelRect(210, 325, 12, 14, '#ffffff');
+          drawPixelRect(212, 327, 8, 4, '#78350f');
+        }
+
+        if (ent.type === 'plant') {
+          drawPixelRect(260, 350, 24, 30, '#d97706');
+          drawPixelRect(255, 330, 34, 20, '#22c55e');
+        }
+
+        if (ent.type === 'cat') {
+          ent.timer += 0.03;
+          let catX = ent.x + Math.sin(ent.timer) * 10;
+          drawPixelRect(catX, ent.y, 22, 14, '#fb923c'); // Body
+          drawPixelRect(catX + 14, ent.y - 8, 12, 12, '#fb923c'); // Head
+          drawPixelRect(catX + 14, ent.y - 12, 3, 4, '#fb923c'); // Ears
+          drawPixelRect(catX + 23, ent.y - 12, 3, 4, '#fb923c');
+        }
+
+        if (ent.type === 'dog') {
+          let breathe = (frame % 30 < 15) ? 0 : 2;
+          drawPixelRect(ent.x, ent.y, 26, 16 + breathe, '#a16207');
+          drawPixelRect(ent.x - 10, ent.y - 4, 14, 14, '#a16207');
+          drawPixelRect(ent.x - 12, ent.y, 5, 10, '#713f12'); // Ear
+        }
+
+        if (ent.type === 'music') {
+          gCtx.font = '1.1rem sans-serif';
+          gCtx.fillStyle = '#c084fc';
+          let noteY = 240 - ((frame * 1.5) % 80);
+          gCtx.fillText('🎵', 170 + Math.sin(frame / 10) * 8, noteY);
+        }
+
+        if (ent.type === 'floating_heart') {
+          ent.y -= ent.speed;
+          if (ent.y < 140) ent.y = 360;
+          gCtx.font = '1.1rem sans-serif';
+          gCtx.fillText('💖', ent.x + Math.sin(frame / 10) * 6, ent.y);
+        }
+      });
+
+      // Render Active Weather Overlays
+      updateAndDrawWeather();
+
+      requestAnimationFrame(gameLoop);
+    }
+
+    // Reset weather particles on select change
+    weatherSelect.addEventListener('change', () => { weatherParticles = []; });
+
+    parseStoryKeywords();
+    gameLoop();
+  </script>
+</body>
+</html>
